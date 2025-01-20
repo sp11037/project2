@@ -24,3 +24,20 @@ function generateRandomGif() {
         .then(data => data.json())
         .then(response => displayGifs([response])); // input for displayGifs must be an array to use the filter function
 }
+
+// User input function
+function getKeyword() {
+    return Promise.resolve(document.querySelector('.search-bar').value);
+}
+
+// Translate Gif functions
+function fetchGifByKeyword(keyword) {
+    return fetch(`https://api.giphy.com/v1/gifs/translate?api_key=YmjDpGYsDIWqYVvReohWVgkQPv2Bgmnh&s=${keyword}`)
+}
+
+function generateGifByKeyword() {
+    getKeyword()
+        .then(keyword => fetchGifByKeyword(keyword))
+        .then(data => data.json())
+        .then(response => displayGifs([response]));
+}
