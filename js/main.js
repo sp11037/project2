@@ -63,7 +63,8 @@ function generateAllGifsByKeyword() {
 
 // Pagination functions
 function checkForMoreGifs(direction) {
-    if (direction === 'next' && offset + 10 != totalCount) {
+    if ((direction === 'next' && offset + 10 < totalCount)
+    || (direction === 'prev' && offset - 10 >= 0)) {
         return Promise.resolve('');
     }
 }
@@ -71,6 +72,13 @@ function checkForMoreGifs(direction) {
 function nextPage() {
     checkForMoreGifs('next')
         .then(() => offset += 10)
+        .then(() => fetchAllGifsByKeyword(keyword, offset))
+        .then(response => displayGifs(response.data));
+}
+
+function prevPage() {
+    checkForMoreGifs('prev')
+        .then(() => offset -= 10)
         .then(() => fetchAllGifsByKeyword(keyword, offset))
         .then(response => displayGifs(response.data));
 }
