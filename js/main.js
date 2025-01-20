@@ -1,4 +1,7 @@
 const outputArea = document.querySelector('.js-output-area');
+let keyword = '';
+let offset = 0;
+let totalCount = 0;
 
 // Load Gif functions
 function renderGif(gif) {
@@ -26,7 +29,8 @@ function generateRandomGif() {
 
 // User input function
 function getKeyword() {
-    return Promise.resolve(document.querySelector('.search-bar').value);
+    keyword = document.querySelector('.js-search-bar').value;
+    return Promise.resolve('fulfilled');
 }
 
 // Translate Gif functions
@@ -37,7 +41,7 @@ function fetchGifByKeyword(keyword) {
 
 function generateGifByKeyword() {
     getKeyword()
-        .then(keyword => fetchGifByKeyword(keyword))
+        .then(() => fetchGifByKeyword(keyword))
         .then(response => displayGifs([response.data]));
 }
 
@@ -48,7 +52,25 @@ function fetchAllGifsByKeyword(keyword, offset) {
 }
 
 function generateAllGifsByKeyword() {
+    offset = 0;
     getKeyword()
-        .then(keyword => fetchAllGifsByKeyword(keyword, 0)) // offset = 0 for the first page
+        .then(() => fetchAllGifsByKeyword(keyword, offset)) // offset = 0 for the first page
+        .then(response => {
+            totalCount = response.pagination.total_count;
+            displayGifs(response.data);
+        });
+}
+
+// Pagination functions
+function checkForMoreGifs(direction) {
+    if (direction === 'next' && offset + 10 != totalCount) {
+        return Promise.resolve('');
+    }
+}
+
+function nextPage() {
+    checkForMoreGifs('next')
+        .then(() => offset += 10)
+        .then(() => fetchAllGifsByKeyword(keyword, offset))
         .then(response => displayGifs(response.data));
 }
