@@ -1,3 +1,6 @@
+const API_KEY = 'YmjDpGYsDIWqYVvReohWVgkQPv2Bgmnh';
+const LOAD_LIMIT = 10;
+
 const outputArea = document.querySelector('.js-output-area');
 let keyword = '';
 let offset = 0;
@@ -17,14 +20,14 @@ function displayGifs(gifList) { // input gifList must be an array for the map fu
 }
 
 // Random Gif functions
-function fetchRandomGif() {
-    return fetch('https://api.giphy.com/v1/gifs/random?api_key=YmjDpGYsDIWqYVvReohWVgkQPv2Bgmnh')
-        .then(data => data.json());
+async function fetchRandomGif() {
+    const gif = await fetch(`https://api.giphy.com/v1/gifs/random?api_key=${API_KEY}`);
+    return gif.json();
 }
 
-function generateRandomGif() {
-    fetchRandomGif()
-        .then(response => displayGifs([response.data]));
+async function generateRandomGif() {
+    const gif = await fetchRandomGif();
+    displayGifs([gif.data]);
 }
 
 // User input function
@@ -34,31 +37,29 @@ function getKeyword() {
 }
 
 // Translate Gif functions
-function fetchGifByKeyword(keyword) {
-    return fetch(`https://api.giphy.com/v1/gifs/translate?api_key=YmjDpGYsDIWqYVvReohWVgkQPv2Bgmnh&s=${keyword}`)
-        .then(data => data.json());
+async function fetchGifByKeyword(keyword) {
+    const gifs = await fetch(`https://api.giphy.com/v1/gifs/translate?api_key=${API_KEY}&s=${keyword}`);
+    return gifs.json();
 }
 
-function generateGifByKeyword() {
-    getKeyword()
-        .then(() => fetchGifByKeyword(keyword))
-        .then(response => displayGifs([response.data]));
+async function generateGifByKeyword() {
+    await getKeyword();
+    const gif = await fetchGifByKeyword(keyword);
+    displayGifs([gif.data]);
 }
 
 // Search Gif functions
-function fetchAllGifsByKeyword(keyword, offset) {
-    return fetch(`https://api.giphy.com/v1/gifs/search?q=${keyword}&api_key=YmjDpGYsDIWqYVvReohWVgkQPv2Bgmnh&limit=10&offset=${offset}`)
-        .then(data => data.json());
+async function fetchAllGifsByKeyword(keyword, offset) {
+    const gifs = await fetch(`https://api.giphy.com/v1/gifs/search?q=${keyword}&api_key=${API_KEY}&limit=${LOAD_LIMIT}&offset=${offset}`);
+    return gifs.json();
 }
 
-function generateAllGifsByKeyword() {
-    offset = 0;
-    getKeyword()
-        .then(() => fetchAllGifsByKeyword(keyword, offset)) // offset = 0 for the first page
-        .then(response => {
-            totalCount = response.pagination.total_count;
-            displayGifs(response.data);
-        });
+async function generateAllGifsByKeyword() {
+    offset = 0; // reset offset for first page
+    await getKeyword();
+    const gifs = await fetchAllGifsByKeyword(keyword, offset);
+    totalCount = gifs.pagination.total_count;
+    displayGifs(gifs.data);
 }
 
 // Pagination functions
@@ -66,19 +67,33 @@ function checkForMoreGifs(direction) {
     if ((direction === 'next' && offset + 10 < totalCount)
     || (direction === 'prev' && offset - 10 >= 0)) {
         return Promise.resolve('');
+    } else {
+        return Promise.reject('Reached page limit.');
     }
 }
 
-function nextPage() {
-    checkForMoreGifs('next')
-        .then(() => offset += 10)
-        .then(() => fetchAllGifsByKeyword(keyword, offset))
-        .then(response => displayGifs(response.data));
+async function nextPage() {
+    try {
+        await checkForMoreGifs('next');
+    } catch (err) {
+        console.error(err);
+        return;
+    }
+
+    offset += 10
+    const gifs = await fetchAllGifsByKeyword(keyword, offset);
+    displayGifs(gifs.data);
 }
 
-function prevPage() {
-    checkForMoreGifs('prev')
-        .then(() => offset -= 10)
-        .then(() => fetchAllGifsByKeyword(keyword, offset))
-        .then(response => displayGifs(response.data));
+async function prevPage() {
+    try {
+        await checkForMoreGifs('prev');
+    } catch (err) {
+        console.error(err);
+        return;
+    }
+
+    offset -= 10
+    const gifs = await fetchAllGifsByKeyword(keyword, offset);
+    displayGifs(gifs.data);
 }
