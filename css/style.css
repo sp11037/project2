@@ -1,0 +1,54 @@
+header {
+    margin: auto;   /* centers header */
+    max-width: 1400px;
+}
+
+/* search bar */
+.search-container {
+    display: flex;
+    align-items: center;    /* vertically centers items */
+    padding: 0px 10px;
+    border: 1px solid black;
+    border-radius: 50px;
+    font-size: 1.5rem;
+}
+
+input {
+    flex: 1;    /* stretches search bar area to end of container */
+    margin: 0px 10px;
+    border: none;
+    font-size: 2rem;
+}
+
+input:focus {
+    outline: none;
+}
+
+/* buttons */
+.button-container {
+    display: flex;
+}
+
+button {
+    margin: 10px 5px;
+    height: 40px;
+    width: 40px;
+    border: none;
+    border-radius: 50px;
+    background-color: dodgerblue;
+    font-size: 1.5rem;
+    color: white;
+    text-align: center;
+}
+
+button:hover {
+    background-color: blue;
+}
+
+.generate-button {
+    width: 150px;
+}
+
+.generate-button:first-child {
+    margin-left: 0px;
+}

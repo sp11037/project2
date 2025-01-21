@@ -5,19 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./css/style.css">
+    <script src="https://kit.fontawesome.com/acc94da25b.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <input type="text" name="search-bar" class="js-search-bar search-bar" placeholder="Enter search">
-
-    <button onclick="generateRandomGif()" class="generate-button">Random</button>
-    <button onclick="generateGifByKeyword()" class="generate-button">Translate</button>
-    <button onclick="generateAllGifsByKeyword()" class="generate-button">Search</button>
-
-    <button onclick="prevPage()" class="pagination-button">&lt;</button>
-    <button onclick="nextPage()" class="pagination-button">&gt;</button>
+    <header>
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" name="search-bar" class="js-search-bar" autocomplete="off" placeholder="Enter search" />
+        </div>
+        <div class="button-container">
+            <button onclick="generateRandomGif()" class="generate-button">Random</button>
+            <button onclick="generateGifByKeyword()" class="generate-button">Translate</button>
+            <button onclick="generateAllGifsByKeyword()" class="generate-button">Search</button>
+        
+            <button onclick="prevPage()" class="pagination-button">&lt;</button>
+            <button onclick="nextPage()" class="pagination-button">&gt;</button>
+        </div>
+    </header>
 
     <section class="js-output-area output-area"></section>
 
+    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
     <script src="./js/main.js"></script>
 </body>
 </html>
