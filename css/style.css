@@ -1,3 +1,7 @@
+body {
+    overflow: hidden;
+}
+
 header {
     margin: auto;   /* centers header */
     max-width: 1400px;
@@ -51,4 +55,14 @@ button:hover {
 
 .generate-button:first-child {
     margin-left: 0px;
+}
+
+.output-area {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    margin: auto;
+    height: 80vh;
+    max-width: 1400px;
+    overflow-y: scroll;
 }

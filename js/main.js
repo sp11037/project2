@@ -9,7 +9,7 @@ let totalCount = 0;
 // Load Gif functions
 function renderGif(gif) {
     return `
-        <img src='${gif.images.original.url}' alt'${gif.title}' />
+        <img src='${gif.images.fixed_height.url}' alt'${gif.title}' />
     `;
 }
 
