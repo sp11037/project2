@@ -26,6 +26,7 @@ async function fetchRandomGif() {
 }
 
 async function generateRandomGif() {
+    offset = '';    // prevents pagination
     const gif = await fetchRandomGif();
     displayGifs([gif.data]);
 }
@@ -38,6 +39,7 @@ function getKeyword() {
 
 // Translate Gif functions
 async function fetchGifByKeyword(keyword) {
+    offset = '';    // prevents pagination
     const gifs = await fetch(`https://api.giphy.com/v1/gifs/translate?api_key=${API_KEY}&s=${keyword}`);
     return gifs.json();
 }
@@ -73,27 +75,31 @@ function checkForMoreGifs(direction) {
 }
 
 async function nextPage() {
-    try {
-        await checkForMoreGifs('next');
-    } catch (err) {
-        console.error(err);
-        return;
-    }
+    if (offset !== '') {
+        try {
+            await checkForMoreGifs('next');
+        } catch (err) {
+            console.error(err);
+            return;
+        }
 
-    offset += 10
-    const gifs = await fetchAllGifsByKeyword(keyword, offset);
-    displayGifs(gifs.data);
+        offset += 10
+        const gifs = await fetchAllGifsByKeyword(keyword, offset);
+        displayGifs(gifs.data);
+    }
 }
 
 async function prevPage() {
-    try {
-        await checkForMoreGifs('prev');
-    } catch (err) {
-        console.error(err);
-        return;
+    if (offset !== '') {
+        try {
+            await checkForMoreGifs('prev');
+        } catch (err) {
+            console.error(err);
+            return;
+        }
+    
+        offset -= 10
+        const gifs = await fetchAllGifsByKeyword(keyword, offset);
+        displayGifs(gifs.data);
     }
-
-    offset -= 10
-    const gifs = await fetchAllGifsByKeyword(keyword, offset);
-    displayGifs(gifs.data);
 }
