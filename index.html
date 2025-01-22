@@ -5,14 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./css/style.css">
+    <!-- for the icons -->
     <script src="https://kit.fontawesome.com/acc94da25b.js" crossorigin="anonymous"></script>
+    <!-- for title font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Macondo&family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
+        <!-- menu section -->
+        <button class="menu-button" onclick="openMenu()"><i class="fa-solid fa-bars"></i></button>
+        <div class="js-menu-area menu-area">
+            <h1>Title</h1>
+            <ul>
+                <li><a href="#">Option 1</a></li>
+                <li><a href="#">Option 2</a></li>
+                <li><a href="#">Option 3</a></li>
+            </ul>
+        </div>
+
+        <!-- search bar -->
         <div class="search-container">
             <i class="fa-solid fa-magnifying-glass"></i>
             <input type="text" name="search-bar" class="js-search-bar" autocomplete="off" placeholder="Enter search" />
         </div>
+
+        <!-- buttons -->
         <div class="button-container">
             <button onclick="generateRandomGif()" class="generate-button">Random</button>
             <button onclick="generateGifByKeyword()" class="generate-button">Translate</button>

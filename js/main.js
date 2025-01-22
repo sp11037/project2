@@ -103,3 +103,14 @@ async function prevPage() {
         displayGifs(gifs.data);
     }
 }
+
+// collapsible menu functions
+const menuArea = document.querySelector('.js-menu-area');
+
+function openMenu() {
+    if (menuArea.classList.contains('active')) {
+        menuArea.classList.remove('active');
+    } else {
+        menuArea.classList.add('active');
+    }
+}
